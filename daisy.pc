@@ -1,0 +1,19 @@
+# Package Information for pkg-config
+# Author= Engin Tola
+# Created= Wed Aug  1 20:46:21 PDT 2012
+# Licence= see license.txt
+
+prefix=/usr/local
+exec_prefix=${prefix}
+libdir=${exec_prefix}/lib
+includedir=${prefix}/include
+
+Name: daisy
+Description: daisy descriptor
+Version: 1.8.1
+Libs: -L${libdir} -ldaisy
+Cflags: -I${includedir} -DUSE_OPENMP
+Requires:
+Path=/home/justin/Documents/daisy-1.8.1
+tagfile=${Path}/TAGS
+
