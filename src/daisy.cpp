@@ -200,7 +200,7 @@ void daisy::compute_grid_points()
 }
 
 /// Computes the descriptor by sampling convoluted orientation maps.
-void daisy::compute_descriptors()
+void daisy::compute_descriptors(int orientation)
 {
    if( m_verbosity >= 4 ) {
       cout<<"#######################################################################################\n";
@@ -219,9 +219,14 @@ void daisy::compute_descriptors()
    progress_bar bar( 0, m_h, 20);
    bar.set_text("[daisy] ");
 
-   int y, x, index, orientation;
+   if (m_orientation_map)
+     std::cout << "rotational invariance on" << std::endl;
+   if( !( orientation >= 0 && orientation < g_grid_orientation_resolution ) )
+     std::cout << "orientation over 360, setting to 0" << std::endl;
+
+   int y, x, index;
 #ifdef USE_OPENMP
-#pragma omp parallel for private(y,x,index,orientation)
+#pragma omp parallel for private(y,x,index)
 #endif
    for( y=0; y<m_h; y++ )
    {
@@ -229,7 +234,6 @@ void daisy::compute_descriptors()
       for( x=0; x<m_w; x++ )
       {
          index=y*m_w+x;
-         orientation=0;
          if( m_orientation_map ) orientation = m_orientation_map[index];
          if( !( orientation >= 0 && orientation < g_grid_orientation_resolution ) ) orientation = 0;
          get_unnormalized_descriptor( y, x, orientation, &(m_dense_descriptors[index*m_descriptor_size]) );

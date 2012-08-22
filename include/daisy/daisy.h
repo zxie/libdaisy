@@ -112,7 +112,7 @@ public:
    void release_auxilary();
 
    /// computes the descriptors for every pixel in the image.
-   void compute_descriptors();
+   void compute_descriptors(int orientation=0);
 
    /// sets image data and size, image is converted to float and normalized.
    template<class T> void set_image(T* im, int h, int w)
